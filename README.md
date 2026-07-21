@@ -10,9 +10,10 @@ Ensure the following tools are installed on your local machine:
 
 ## API Endpoints
 
-| Method | Endpoint                   | Description                                   | Payload / Params |
-|:-------|:---------------------------|:----------------------------------------------| :--- |
-| `GET`  | `/actuator/health`         | Liveness and Readiness check                  | Raw API JSON body |
+| Method | Endpoint              | Description                                                | Payload / Params  |
+|:-------|:----------------------|:-----------------------------------------------------------|:------------------|
+| `GET`  | `/actuator/health`    | Liveness and Readiness check                               | Raw API JSON body |
+| `GET`  | `/v1/user/{username}` | Accepts a username and returns a normalized domain object. | Raw API JSON body |
 
 ## Quick Start
 
