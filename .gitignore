@@ -1,0 +1,43 @@
+# Gradle Build Artifacts
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Build Artifacts (Eclipse / STS / Generic)
+bin/
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# IDE - Eclipse / STS
+.classpath
+.project
+.settings/
+
+# IDE - NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# IDE - VS Code
+.vscode/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Log Files
+*.log
+
+# Local Environment Secrets
+.env
