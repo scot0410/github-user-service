@@ -1,10 +1,9 @@
-package com.branch.github_user_service.user.client.service;
+package com.branch.github_user_service.user.service;
 
 import com.branch.github_user_service.user.client.GitHubClient;
 import com.branch.github_user_service.user.exception.UserNotFoundException;
 import com.branch.github_user_service.user.model.GitHubApiRepoResponse;
 import com.branch.github_user_service.user.model.GitHubApiUserResponse;
-import com.branch.github_user_service.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
