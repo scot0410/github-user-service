@@ -66,12 +66,12 @@ public class GitHubClientTest {
             [
                 {
                     "name": "boysenberry-repo-1",
-                    "html_url": "https://github.com/boysenberry-repo-1",
+                    "url": "https://api.github.com/repos/octocat/boysenberry-repo-1",
                     "id": 12345
                 },
                 {
                     "name": "git-consortium",
-                    "html_url": "https://github.com/git-consortium",
+                    "url": "https://api.github.com/repos/octocat/git-consortium",
                     "id": 67890
                 }
             ]
@@ -85,9 +85,9 @@ public class GitHubClientTest {
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(2));
         assertThat(response.getFirst().name(), is("boysenberry-repo-1"));
-        assertThat(response.getFirst().url(), is("https://github.com/boysenberry-repo-1"));
+        assertThat(response.getFirst().url(), is("https://api.github.com/repos/octocat/boysenberry-repo-1"));
         assertThat(response.getLast().name(), is("git-consortium"));
-        assertThat(response.getLast().url(), is("https://github.com/git-consortium"));
+        assertThat(response.getLast().url(), is("https://api.github.com/repos/octocat/git-consortium"));
     }
 
     @Test

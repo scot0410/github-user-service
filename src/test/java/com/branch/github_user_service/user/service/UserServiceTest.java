@@ -48,9 +48,9 @@ public class UserServiceTest {
 
         assertThat(response.repos().size(), is(2));
         assertThat(response.repos().getFirst().name(), is("boysenberry-repo-1"));
-        assertThat(response.repos().getFirst().url(), is("https://github.com/octocat/boysenberry-repo-1"));
+        assertThat(response.repos().getFirst().url(), is("https://api.github.com/repos/octocat/boysenberry-repo-1"));
         assertThat(response.repos().getLast().name(), is("git-consortium"));
-        assertThat(response.repos().getLast().url(), is("https://github.com/octocat/git-consortium"));
+        assertThat(response.repos().getLast().url(), is("https://api.github.com/repos/octocat/git-consortium"));
     }
 
     @Test
@@ -79,12 +79,12 @@ public class UserServiceTest {
     private List<GitHubApiRepoResponse> getGitHubApiRepoResponse() {
         var repo1 = new GitHubApiRepoResponse(
                 "boysenberry-repo-1",
-                "https://github.com/octocat/boysenberry-repo-1"
+                "https://api.github.com/repos/octocat/boysenberry-repo-1"
         );
 
         var repo2 = new GitHubApiRepoResponse(
                 "git-consortium",
-                "https://github.com/octocat/git-consortium"
+                "https://api.github.com/repos/octocat/git-consortium"
         );
 
         return List.of(repo1, repo2);
