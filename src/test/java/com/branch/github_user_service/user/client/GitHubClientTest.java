@@ -30,7 +30,7 @@ public class GitHubClientTest {
 
     @Test
     @DisplayName("Should fetch and transform user data, ignoring unreferenced fields")
-    void shouldFetchAndTransform() {
+    void getUserDataShouldFetchAndTransform() {
         String USER_NAME = "octocat";
         String mockUserJson = """
             {
@@ -61,8 +61,8 @@ public class GitHubClientTest {
     }
 
     @Test
-    @DisplayName("Should successfully fetch and deserialize repository list with chosen fields")
-    void shouldFetchRepositoriesSuccessfully() {
+    @DisplayName("Should successfully fetch and deserialize repo data with chosen fields")
+    void getRepoDataShouldFetchRepoDataSuccessfully() {
         String mockReposJson = """
             [
                 {
@@ -93,7 +93,7 @@ public class GitHubClientTest {
 
     @Test
     @DisplayName("Should throw UserNotFoundException when GitHub user is not found")
-    void shouldThrowUserNotFoundExceptionWhenUserNotFound() {
+    void getUserDataShouldThrowUserNotFoundExceptionWhenUserNotFound() {
         mockServer.expect(requestTo("https://api.github.com/users/unknown-user"))
                 .andRespond(withStatus(HttpStatus.NOT_FOUND));
 
@@ -106,7 +106,7 @@ public class GitHubClientTest {
 
     @Test
     @DisplayName("Should throw GitHubApiException when GitHub user is not found")
-    void shouldThrowGitHubApiExceptionWhenUserNotFound() {
+    void getUserDataShouldThrowGitHubApiExceptionWhenUserNotFound() {
         String USER_NAME = "octocat";
 
         mockServer.expect(requestTo("https://api.github.com/users/octocat"))

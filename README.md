@@ -90,8 +90,8 @@ docker-compose down
     ▼
 [ User Service ] <───► [ Redis Cache ] (Provisioned / Future Integration)
     │
-    ├───► [ Circuit Breaker (Future Integration) ] ───► External API 1 (User Bio) ──┐
-    │                                                           ├──► [ Domain Object ] ──► [ Client ]
+    ├───► [ Circuit Breaker (Future Integration) ] ───► External API 1 (User Bio)  ──┐
+    │                                                                                ├──► [ Domain Object ] ──► [ Client ]
     └───► [ Circuit Breaker (Future Integration) ] ───► External API 2 (User Repos) ─┘
 ```
 
