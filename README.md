@@ -40,10 +40,10 @@ docker-compose down
 
 ## API Endpoints
 
-| Method | Endpoint | Description  | Request Params | Payload                                             |
-|:-------|:----------------------|:----------------------------------------------------------|:-------------------------------------------------|:----------------------------------------------------|
-| `GET`  | `/actuator/health`    | Liveness and Readiness probe for container orchestration. |                                                  | [Health Response](#health-response-payload)         |
-| `GET`  | `/v1/users`           | Returns a unified GitHub user profile.                    | **Request Param:** `username` (String, Required) | [GitHubUser Response](#githubuser-response-payload) |
+| Method | Endpoint | Description  | Request Params                | Payload                                             |
+|:-------|:----------------------|:----------------------------------------------------------|:------------------------------|:----------------------------------------------------|
+| `GET`  | `/actuator/health`    | Liveness and Readiness probe for container orchestration. |                               | [Health Response](#health-response-payload)         |
+| `GET`  | `/v1/users`           | Returns a unified GitHub user profile.                    | `username` (String, Required) | [GitHubUser Response](#githubuser-response-payload) |
 
 ### Health Response Payload
 ```json
@@ -79,7 +79,7 @@ docker-compose down
 
 ## System Architecture & Request Flow
 
-> ⚠️ **Implementation Note:** The sequence diagram below represents the **Target Architecture**. While Redis and infrastructure containers are fully provisioned via Docker Compose, application-level caching and circuit breakers are slotted for future implementation phases (detailed below).
+> ⚠️ **Implementation Note:** The sequence diagram below represents the **Target Architecture**. While Redis is fully provisioned via Docker Compose, application-level caching and circuit breakers are slotted for future implementation phases (detailed below).
 
 ```text
 [ Client ]
@@ -100,38 +100,36 @@ docker-compose down
 ## Architectural Decisions & Trade-offs
 
 ### 1. Structural Pattern: MVC & Package-by-Feature
-* **Decision:** Implemented a practical MVC layout organized tightly by feature boundaries instead of pure Hexagonal Architecture layers.
-* **Reasoning:** Driven by strict project time constraints and a small initial domain. Hexagonal boundaries would introduce unnecessary interface overhead for a straightforward API proxy.
-* **Future Iteration:** If the domain expands or introduces heavy multi-database business logic, transition to pure Ports & Adapters to strictly isolate the business domain.
+* **Decision:** Implemented a practical MVC layout with Package by Feature, instead of pure Hexagonal Architecture layers.
+* **Reasoning:** Time constraints and a small initial domain.
+* **Future Iteration:** If the domain expands or introduces heavy business logic, transition to pure Ports & Adapters.
 
 ### 2. Containerized Microservice Infrastructure
 * **Decision:** Configured a `Dockerfile` and multi-container `docker-compose.yml` environment containing a Redis dependency.
-* **Reasoning:** Establishes a production-ready baseline on Day 1, ensuring the local setup perfectly mirrors real-world deployments.
-* **Future Iteration:** Focus shift back to pure application logic. The container foundation ensures the next developer can easily plug in the Spring Cache Redis adapter.
+* **Reasoning:** Establishes a production-ready setup, and ensures app deployment reliability.
+* **Future Iteration:** Focus shift back to pure application logic. The container foundation enables quick Spring Cache Redis integration.
 
 ### 3. Exception Handling Strategy
-* **Decision:** Relied on localized `@ResponseStatus` markers directly on explicit custom exception classes.
-* **Reasoning:** Allowed for fast delivery of distinct HTTP status codes without complex wiring.
-* **Future Iteration:** Replace this approach with a centralized `@RestControllerAdvice` (Global Exception Handler) to return clean, standardized problem details to downstream clients.
+* **Decision:** Relied on `@ResponseStatus` annotations directly on exception classes.
+* **Reasoning:** Time constraints.
+* **Future Iteration:** Replace this approach with `@RestControllerAdvice` (Global Exception Handler) to return clean, standardized responses with error details.
 
 ### 4. Handling Missing Data (Email Nullability)
-* **Decision:** The application leaves empty/hidden downstream fields as `null` in the payload instead of enforcing fallback strings.
-* **Reasoning:** Matches upstream behavior where public emails are entirely optional on GitHub profiles.
-* **Future Iteration:** To avoid exposing risks to downstream developers, expose fields safely through an un-serializable `Optional<String>` getter interface or clear mapping annotations rather than using raw nullable object fields.
+* **Decision:** The application leaves the `email` field as `null` when it's returned from the GitHub User API.
+* **Reasoning:** Matches GitHub API behavior, where public emails are optional on GitHub profiles.
+* **Future Iteration:** To avoid potential risks (eg. `NullPointerException`), use `Optional<String>` getters or annotations rather than using raw nullable object fields.
 
 ---
 
 ## Production Considerations
 
-## Production Considerations
-
 ### Current State
-* **Validation:** Leverages Spring Validation via `@RequestParam` constraints. Explicit null-checking for the string literal `"null"` is intentionally omitted, as it represents a valid, registered upstream username on GitHub.
+* **Validation:** Performs manual validation on supplied `@RequestParam`. Explicit null-checking for the string literal `"null"` is intentionally omitted, as it represents a valid, registered upstream username on GitHub.
 * **Testing Coverage:** The current suite achieves **87% Line Coverage** and **25% Branch Coverage**.
 * **DevOps Readiness:** Includes out-of-the-box support for Kubernetes liveness and readiness probes via Spring Boot Actuator endpoints.
 
 ### Future Roadmap
-* **Testing Expansion:** Implement parameterized testing to capture deep edge cases and missing execution paths to increase branch coverage.
-* **Caching:** Implement a service-layer caching strategy to prevent upstream rate-limiting errors.
-* **Resilience:** Integrate a Circuit Breaker pattern at external client call boundaries for isolated fault tolerance.
-* **Infrastructure as Code:** Export existing Kubernetes configurations into localized Helm charts.
+* **Testing Expansion:** Implement parameterized testing for edge cases and branch coverage.
+* **Caching:** Implement service-layer caching to prevent upstream rate-limiting errors.
+* **Resilience:** Integrate a Circuit Breaker pattern at external client call for fault tolerance.
+* **Infrastructure as Code:** Configure K8s manifests with Helm charts for continuous deployment.
