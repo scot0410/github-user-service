@@ -59,17 +59,17 @@ docker-compose down
 ### GitHubUser Response Payload
 ```json
 {
-  "userName": "octocat",
-  "displayName": "The Octocat",
-  "avatar": "https://githubusercontent.com",
-  "geoLocation": "San Francisco",
+  "user_name": "octocat",
+  "display_name": "The Octocat",
+  "avatar": "https://avatars.githubusercontent.com/u/583231?v=4",
+  "geo_location": "San Francisco",
   "email": null,
-  "url": "https://github.com",
-  "createdAt": "Tue, 25 Jan 2011 18:44:36 GMT",
+  "url": "https://api.github.com/users/octocat",
+  "created_at": "Tue, 25 Jan 2011 18:44:36 GMT",
   "repos": [
     {
       "name": "boysenberry-repo-1",
-      "url": "https://github.com"
+      "url": "https://api.github.com/repos/octocat/boysenberry-repo-1"
     }
   ]
 }
@@ -123,6 +123,15 @@ docker-compose down
 
 ## Production Considerations
 
-* **Validation:** Leverages Spring Validation via `@RequestParam` constraints. Note that explicit null-checking for the literal value `"null"` was omitted, as it represents a valid, registered upstream username on the GitHub platform.
-* **Testing Coverage:** Current suite achieves **87% Line Coverage** and **25% Branch Coverage**. Future focus will emphasize parameterized testing to capture deep edge cases and missing response paths.
-* **DevOps Readiness:** Out-of-the-box support for Kubernetes liveness/readiness probes via Spring Boot Actuator endpoints. Next step is to export these configurations into localized Helm charts.
+## Production Considerations
+
+### Current State
+* **Validation:** Leverages Spring Validation via `@RequestParam` constraints. Explicit null-checking for the string literal `"null"` is intentionally omitted, as it represents a valid, registered upstream username on GitHub.
+* **Testing Coverage:** The current suite achieves **87% Line Coverage** and **25% Branch Coverage**.
+* **DevOps Readiness:** Includes out-of-the-box support for Kubernetes liveness and readiness probes via Spring Boot Actuator endpoints.
+
+### Future Roadmap
+* **Testing Expansion:** Implement parameterized testing to capture deep edge cases and missing execution paths to increase branch coverage.
+* **Caching:** Implement a service-layer caching strategy to prevent upstream rate-limiting errors.
+* **Resilience:** Integrate a Circuit Breaker pattern at external client call boundaries for isolated fault tolerance.
+* **Infrastructure as Code:** Export existing Kubernetes configurations into localized Helm charts.
