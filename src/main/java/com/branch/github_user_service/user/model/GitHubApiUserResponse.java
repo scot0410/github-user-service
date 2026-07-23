@@ -9,7 +9,7 @@ public record GitHubApiUserResponse(
         String name,
         @JsonProperty("avatar_url") String avatarUrl,
         String location,
-        String email,//can be null
+        String email,
         String url,
         @JsonProperty("created_at") String createdAt
 ) {}

@@ -3,10 +3,9 @@ package com.branch.github_user_service.user.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-public class GitHubApiException extends RuntimeException {
-    public GitHubApiException(String message) {
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class InvalidUsernameException extends RuntimeException {
+    public InvalidUsernameException(String message) {
         super(message);
     }
 }
-

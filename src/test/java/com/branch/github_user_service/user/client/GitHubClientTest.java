@@ -1,6 +1,7 @@
 package com.branch.github_user_service.user.client;
 
 import com.branch.github_user_service.config.GithubClientConfig;
+import com.branch.github_user_service.user.exception.GitHubApiException;
 import com.branch.github_user_service.user.exception.UserNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ public class GitHubClientTest {
     @Test
     @DisplayName("Should fetch and transform user data, ignoring unreferenced fields")
     void shouldFetchAndTransform() {
-        String userName = "octocat";
+        String USER_NAME = "octocat";
         String mockUserJson = """
             {
                 "login": "octocat",
@@ -47,7 +48,7 @@ public class GitHubClientTest {
         mockServer.expect(requestTo("https://api.github.com/users/octocat"))
                 .andRespond(withSuccess(mockUserJson, MediaType.APPLICATION_JSON));
 
-        var response = client.getUserData(userName);
+        var response = client.getUserData(USER_NAME);
 
         assertThat(response, is(notNullValue()));
         assertThat(response.login(), is("octocat"));
@@ -91,8 +92,8 @@ public class GitHubClientTest {
     }
 
     @Test
-    @DisplayName("Should throw ResponseStatusException when GitHub user is not found")
-    void shouldThrowExceptionWhenUserNotFound() {
+    @DisplayName("Should throw UserNotFoundException when GitHub user is not found")
+    void shouldThrowUserNotFoundExceptionWhenUserNotFound() {
         mockServer.expect(requestTo("https://api.github.com/users/unknown-user"))
                 .andRespond(withStatus(HttpStatus.NOT_FOUND));
 
@@ -101,6 +102,21 @@ public class GitHubClientTest {
         });
 
         assertThat(exception.getMessage(), is("GitHub user 'unknown-user' does not exist"));
+    }
+
+    @Test
+    @DisplayName("Should throw GitHubApiException when GitHub user is not found")
+    void shouldThrowGitHubApiExceptionWhenUserNotFound() {
+        String USER_NAME = "octocat";
+
+        mockServer.expect(requestTo("https://api.github.com/users/octocat"))
+                .andRespond(withStatus(HttpStatus.INTERNAL_SERVER_ERROR));
+
+        var exception = assertThrows(GitHubApiException.class, () -> {
+            client.getUserData(USER_NAME);
+        });
+
+        assertThat(exception.getMessage(), is("GitHub client error encountered: 500 INTERNAL_SERVER_ERROR"));
     }
 }
 
