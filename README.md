@@ -10,10 +10,41 @@ Ensure the following tools are installed on your local machine:
 
 ## API Endpoints
 
-| Method | Endpoint              | Description                                                | Payload / Params  |
-|:-------|:----------------------|:-----------------------------------------------------------|:------------------|
-| `GET`  | `/actuator/health`    | Liveness and Readiness check                               | Raw API JSON body |
-| `GET`  | `/v1/user/{username}` | Accepts a username and returns a normalized domain object. | Raw API JSON body |
+| Method | Endpoint               | Description                                                | Payload / Params  |
+|:-------|:-----------------------|:-----------------------------------------------------------|:------------------|
+| `GET`  | `/actuator/health`     | Liveness and Readiness check                               | Raw API JSON body |
+| `GET`  | `/v1/users/{username}` | Accepts a username and returns a normalized domain object. | Raw API JSON body |
+
+
+### Health Response Payload
+```json
+{
+  "groups": [
+    "liveness",
+    "readiness"
+  ],
+  "status":"UP"
+}
+```
+
+### GitHubUser Response Payload
+```json
+{
+  "userName": "octocat",
+  "displayName": "The Octocat",
+  "avatar": "https://avatars.githubusercontent.com/u/583231?v=4",
+  "geoLocation": "San Francisco",
+  "email": null,
+  "url": "https://api.github.com/users/octocat",
+  "createdAt": "Tue, 25 Jan 2011 18:44:36 GMT",
+  "repos": [
+    {
+      "name": "boysenberry-repo-1",
+      "url": "https://github.com/octocat/boysenberry-repo-1"
+    }
+  ]
+}
+```
 
 ## Quick Start
 

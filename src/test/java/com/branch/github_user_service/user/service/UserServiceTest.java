@@ -26,7 +26,7 @@ public class UserServiceTest {
     private UserService service;
 
     @Test
-    void getByUserNameShouldReturnGithubUser() {
+    void getByUserNameShouldReturnGitHubUser() {
         var USER_NAME = "octocat";
 
         var gitHubApiUserResponse = getGitHubApiUserResponse();
@@ -91,3 +91,4 @@ public class UserServiceTest {
     }
 
 }
+

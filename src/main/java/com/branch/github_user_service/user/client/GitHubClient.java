@@ -49,6 +49,4 @@ public class GitHubClient {
                 })
                 .body(new ParameterizedTypeReference<List<GitHubApiRepoResponse>>() {});
     }
-
-
 }

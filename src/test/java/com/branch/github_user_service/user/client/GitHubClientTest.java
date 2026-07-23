@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -78,7 +77,7 @@ public class GitHubClientTest {
             ]
             """;
 
-        this.mockServer.expect(requestTo("https://api.github.com/users/octocat/repos"))
+        mockServer.expect(requestTo("https://api.github.com/users/octocat/repos"))
                 .andRespond(withSuccess(mockReposJson, MediaType.APPLICATION_JSON));
 
         var response = client.getRepoData("octocat");
@@ -94,7 +93,7 @@ public class GitHubClientTest {
     @Test
     @DisplayName("Should throw ResponseStatusException when GitHub user is not found")
     void shouldThrowExceptionWhenUserNotFound() {
-        this.mockServer.expect(requestTo("https://api.github.com/users/unknown-user"))
+        mockServer.expect(requestTo("https://api.github.com/users/unknown-user"))
                 .andRespond(withStatus(HttpStatus.NOT_FOUND));
 
         var exception = assertThrows(UserNotFoundException.class, () -> {
@@ -103,5 +102,5 @@ public class GitHubClientTest {
 
         assertThat(exception.getMessage(), is("GitHub user 'unknown-user' does not exist"));
     }
-
 }
+

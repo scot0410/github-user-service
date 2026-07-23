@@ -9,3 +9,4 @@ public class GitHubApiException extends RuntimeException {
         super(message);
     }
 }
+

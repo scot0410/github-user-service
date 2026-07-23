@@ -13,3 +13,4 @@ public record GitHubApiUserResponse(
         String url,
         @JsonProperty("created_at") String createdAt
 ) {}
+

@@ -59,4 +59,6 @@ public class UserService {
         Instant instant = Instant.parse(s);
         return RFC_1123_FORMATTER.format(instant);
     }
+
 }
+
