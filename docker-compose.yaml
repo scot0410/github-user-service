@@ -24,10 +24,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      # Directs Spring Boot to connect to the Redis container name, not localhost
       - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATA_REDIS_PORT=6379
-      # Enables Virtual Threads inside the Docker container
       - SPRING_THREADS_VIRTUAL_ENABLED=true
     networks:
       - app-network
