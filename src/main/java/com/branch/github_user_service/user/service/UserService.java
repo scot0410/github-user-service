@@ -21,6 +21,7 @@ import java.util.Locale;
 public class UserService {
     private final GitHubClient client;
 
+    @Cacheable(value = "users", key = "#username")
     public GitHubUser getByUserName(String username) {
         validateInput(username);
 
