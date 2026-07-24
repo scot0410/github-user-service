@@ -29,7 +29,7 @@ public class GitHubClientTest {
     MockRestServiceServer mockServer;
 
     @Test
-    @DisplayName("Should fetch and transform user data, ignoring unreferenced fields")
+    @DisplayName("Should successfully fetch and deserialize user data with chosen fields")
     void getUserDataShouldFetchAndTransform() {
         String USER_NAME = "octocat";
         String mockUserJson = """

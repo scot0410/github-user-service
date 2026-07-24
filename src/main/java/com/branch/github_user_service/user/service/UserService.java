@@ -21,7 +21,6 @@ import java.util.Locale;
 public class UserService {
     private final GitHubClient client;
 
-    @Cacheable("users")
     public GitHubUser getByUserName(String username) {
         validateInput(username);
 
@@ -49,6 +48,7 @@ public class UserService {
                                 .url(gitHubApiRepoResponse.url())
                                 .build())
                 .toList();
+
         return GitHubUser.builder()
                 .userName(userData.login())
                 .displayName(userData.name())

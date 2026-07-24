@@ -24,7 +24,7 @@ public class GitHubClient {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
                     if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-                        throw new UserNotFoundException("GitHub user '" + username + "' does not exist");
+                        throw new UserNotFoundException("GitHub user '%s' does not exist".formatted(username));
                     }
                     throw new GitHubApiException("GitHub client error encountered: %s".formatted(response.getStatusCode()));
                 })
@@ -40,12 +40,12 @@ public class GitHubClient {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {
                     if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-                        throw new UserNotFoundException("GitHub user '" + username + "' does not exist");
+                        throw new UserNotFoundException("GitHub user '%s' does not exist".formatted(username));
                     }
-                    throw new GitHubApiException("GitHub client error encountered: " + response.getStatusCode());
+                    throw new GitHubApiException("GitHub client error encountered: %s".formatted(response.getStatusCode()));
                 })
                 .onStatus(HttpStatusCode::is5xxServerError, (request, response) -> {
-                    throw new GitHubApiException("GitHub server is temporarily experiencing downtime");
+                    throw new GitHubApiException("GitHub client error encountered: %s".formatted(response.getStatusCode()));
                 })
                 .body(new ParameterizedTypeReference<List<GitHubApiRepoResponse>>() {});
     }
