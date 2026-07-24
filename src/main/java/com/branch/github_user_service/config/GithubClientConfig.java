@@ -10,7 +10,7 @@ public class GithubClientConfig {
     @Bean
     public RestClient githubClient(RestClient.Builder builder) {
         return builder
-                .baseUrl("https://api.github.com/")
+                .baseUrl("https://api.github.com")
                 .build();
     }
 }
