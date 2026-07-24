@@ -40,10 +40,10 @@ docker-compose down
 
 ## API Endpoints
 
-| Method | Endpoint | Description  | Request Params                | Payload                                             |
-|:-------|:----------------------|:----------------------------------------------------------|:------------------------------|:----------------------------------------------------|
-| `GET`  | `/actuator/health`    | Liveness and Readiness probe for container orchestration. |                               | [Health Response](#health-response-payload)         |
-| `GET`  | `/v1/users`           | Returns a unified GitHub user profile.                    | `username` (String, Required) | [GitHubUser Response](#githubuser-response-payload) |
+| Method | Endpoint           | Request Params                | Description                                               | Payload                                              |
+|:-------|:-------------------|:------------------------------|:----------------------------------------------------------|:-----------------------------------------------------|
+| `GET`  | `/actuator/health` |                               | Liveness and Readiness probe for container orchestration. | [Health Response](#health-response-payload)          |
+| `GET`  | `/v1/users`        | `username` (String, Required) | Returns a unified GitHub user profile.                    | [GitHubUser Response](#githubuser-response-payload)  |
 
 ### Health Response Payload
 ```json
